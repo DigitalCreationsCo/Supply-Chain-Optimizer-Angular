@@ -1,0 +1,18 @@
+<div class="dashboard">
+    <h1>Supply Chain Optimizer</h1>
+
+    <app-input-form></app-input-form>
+
+    <div class="grid grid-cols-1 gap-4">
+      <app-kpi-cards *ngFor="let segments of routes" [segments]="segments"></app-kpi-cards>
+      <app-results-visualization [route]="routes[0]"></app-results-visualization>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- <app-route-distribution [routes]="routes"></app-route-distribution> -->
+        <app-hotspots-table [route]="routes[0]"></app-hotspots-table>
+      </div>
+
+      <app-map-view [route]="routes[0]"></app-map-view>
+    </div>
+    
+  </div>

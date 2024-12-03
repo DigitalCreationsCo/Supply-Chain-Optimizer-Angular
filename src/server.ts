@@ -7,6 +7,7 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { config } from 'dotenv';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -14,17 +15,33 @@ const browserDistFolder = resolve(serverDistFolder, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+config()
+
+app.get('/api/loc/autocomplete', async (req, res) => {
+  const locAutoCompleteUrl = process.env['LOC_AUTOCOMPLETE_URL']
+  const locApiKey = process.env['LOC_API_KEY']
+  
+  const {q} = req.query as {q: string}
+
+  const fullAutoCompleteUrl = `${locAutoCompleteUrl}?key=${locApiKey}&q=${encodeURIComponent(q)}&limit=5&dedupe=1&`
+  // console.log('fullAutoCompleteUrl ', fullAutoCompleteUrl)
+
+  const response = await fetch(fullAutoCompleteUrl);
+  const data = await response.json()
+
+  let results = []
+  if (data?.[0]?.place_id) {
+    // console.log('data ', data)
+    results = data.map((place: Record<string, any>) => {
+      return { 
+        name: place['display_name'],
+        latitude: place['lat'],
+        longitude: place['lon']
+      }
+    })
+  }
+  return res.send(results)
+});
 
 /**
  * Serve static files from /browser

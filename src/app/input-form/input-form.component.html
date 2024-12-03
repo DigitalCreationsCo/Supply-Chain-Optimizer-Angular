@@ -1,0 +1,73 @@
+<form [formGroup]="supplyChainForm" (ngSubmit)="onSubmit()" class="supply-chain-form">
+    <fieldset>
+    <mat-form-field formGroupName="origin">
+      <mat-label>Origin Name</mat-label>
+      <input 
+        matInput 
+        type="text"
+        formControlName="name"
+        (input)="autoCompleteOrigin()" 
+        [matAutocomplete]="autoOrigin"
+        required 
+        />
+        <mat-autocomplete #autoOrigin="matAutocomplete"
+        (optionSelected)="selectOrigin()"
+        >
+          <mat-option 
+          *ngFor="let option of originAutoCompleteList" 
+          [value]="option.name">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <ul>
+        <li *ngFor="let route of supplyChainRouteList">{{route.origin.name}}</li>
+      </ul>
+    </fieldset>
+
+    <fieldset>
+    <mat-form-field formGroupName="destination">
+      <mat-label>Destination Name</mat-label>
+      <input 
+      matInput
+      type="text"
+      formControlName="name"
+      (input)="autoCompleteDestination()" 
+      [matAutocomplete]="autoDestination"
+      required 
+      />
+      <mat-autocomplete #autoDestination="matAutocomplete"
+      (optionSelected)="selectDestination()"
+      >
+        <mat-option 
+        *ngFor="let option of destinationAutoCompleteList"
+        [value]="option.name"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <ul>
+      <li *ngFor="let route of supplyChainRouteList">{{route.destination.name}}</li>
+    </ul>
+    </fieldset>
+
+    <fieldset>
+    <mat-form-field>
+      <mat-label>Emission per km (kg)</mat-label>
+      <input 
+      matInput 
+      type="number" 
+      formControlName="emission"
+      required 
+      />
+    </mat-form-field>
+    <ul>
+      <li *ngFor="let route of supplyChainRouteList">{{route.emission}}</li>
+    </ul>
+  </fieldset>
+
+    <button mat-raised-button color="primary" type="submit">Optimize</button>
+    <a mat-raised-button color="accent" [routerLink]="['/results']">View Results</a>
+  </form>
+  

@@ -1,0 +1,31 @@
+.supply-chain-form {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: end;
+    align-items: flex-start;
+    padding: 20px 20px 0 20px;
+    background-color: #ebebeb; 
+}
+
+fieldset {
+  border: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+    .supply-chain-form {
+      height: fit-content;
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Reduce spacing between elements */
+      justify-content: center; /* Center items horizontally */
+      align-items: stretch; /* Make items fill the container width */
+      padding: 12px; /* Adjust padding for smaller screens */
+    }
+}

@@ -1,0 +1,17 @@
+<mat-card>
+<mat-card-header>
+        <mat-card-title>Emissions Trend</mat-card-title>
+</mat-card-header>
+<mat-card-content>
+        <mat-button-toggle-group [(value)]="timeFrame">
+        <mat-button-toggle value="month">Monthly</mat-button-toggle>
+        <mat-button-toggle value="quarter">Quarterly</mat-button-toggle>
+        <mat-button-toggle value="year">Yearly</mat-button-toggle>
+        </mat-button-toggle-group>
+        <canvas baseChart
+        [data]="chartData"
+        [type]="chartType"
+        [options]="chartOptions">
+        </canvas>
+</mat-card-content>
+</mat-card>
