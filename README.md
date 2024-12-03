@@ -1,6 +1,6 @@
 # Supply Chain Route Emissions Calculator
 
-This Angular application helps track and analyze emissions for supply chain routes. It allows users to calculate total emissions based on geographic data, transportation segments, and more. The app integrates map views for visualization, IndexedDB for data storage, and various other features to enhance supply chain sustainability.
+This Angular application helps track and analyze costs and emissions for supply chain routes. It allows users to calculate total emissions based on geographic data, transportation segments, and more. The app integrates map views for visualization, IndexedDB for data storage, and various other features to enhance supply chain sustainability.
 
 ## Features
 
