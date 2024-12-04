@@ -1,5 +1,14 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css'; 
 
+.app-background {
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  height: 100vh; /* Full viewport height */
+  background: url('/public/globe.svg') center/contain no-repeat;
+  /* background-color: #f0f0f0; Fallback background color */
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -12,4 +21,37 @@ ul {
 
 li {
   list-style-type: none;
+}
+
+.header {
+  display:flex;flex-direction:row;align-items:normal;justify-content: space-between;
+}
+
+.footer {
+  padding: 60px;
+}
+
+.caption {
+  text-align: right;
+  color: #222;
+}
+
+.dashboard-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.mat-mdc-card {
+  border-radius: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .header {
+    display:flex;flex-direction:column; justify-content: start; align-items: start;
+  }
+
+  .dashboard-grid {
+      display:grid;grid-template-columns:1fr;gap:20px;
+  }
 }

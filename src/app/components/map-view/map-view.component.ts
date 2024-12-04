@@ -83,7 +83,7 @@ export class MapViewComponent implements AfterViewInit, OnChanges {
         zoom: 2,
         minZoom: 2,
         maxZoom: 18,
-        scrollWheelZoom: true,
+        scrollWheelZoom: false,
         zoomControl: true
       });
   

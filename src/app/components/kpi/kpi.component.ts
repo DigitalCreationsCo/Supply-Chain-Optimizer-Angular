@@ -11,34 +11,48 @@ import { CommonModule } from '@angular/common';
     <div *ngIf="isLoading" class="text-center py-4">
       <p>Loading data...</p>
     </div>
-    <div *ngIf="!isLoading && segments.length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <mat-card>
-        <mat-card-content>
-          <div class="text-2xl font-bold">{{ totalEmissions | number:'1.0-2' }}</div>
-          <p>Total Emissions (CO2e??) (per km??)</p>
-        </mat-card-content>
-      </mat-card>
-      <mat-card>
-        <mat-card-content>
-          <div class="text-2xl font-bold">{{ avgEmissions | number:'1.0-2' }}</div>
-          <p>Avg Emissions (per Route? per Segment?)</p>
-        </mat-card-content>
-      </mat-card>
-      <mat-card>
-        <mat-card-content>
-          <div class="text-2xl font-bold">{{ segments.length }}</div>
-          <p>Total Segments</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <mat-card *ngIf="!isLoading && segments.length > 0" class="kpi-card">
+      <mat-card-content>
+        <p>{{ firstOrigin }} --- {{ lastDestination }}</p>
+
+        <div class="line-item">
+        <p>Total Emissions (CO2e)</p>
+        <div class="line"></div>
+        {{ totalEmissions | number:'1.0-2' }}
+        </div>
+
+        <div class="line-item">
+        <p>Avg Emissions (WIP - per Segment)</p>
+        <div class="line"></div>
+        {{ avgEmissions | number:'1.0-2' }}
+        </div>
+        
+        <div class="line-item">
+        <p>Avg Emissions (WIP - per Route)</p>
+        <div class="line"></div>
+        {{ avgEmissions | number:'1.0-2' }}
+        </div>
+
+        <div class="line-item">
+        <p>Total Segments</p>
+        <div class="line"></div>
+        {{ segments.length }}
+        </div>
+
+         
+      </mat-card-content>
+    </mat-card>
     <div *ngIf="!isLoading && segments.length === 0" class="text-center py-4">
       <p>No data available to display.</p>
     </div>
-  `
+  `,
+  styleUrl: './kpi.component.css'
 })
 export class KpiCardsComponent implements AfterViewInit, OnChanges {
   @Input() segments: RouteSegment[] = [];
   isLoading: boolean = true;
+  firstOrigin = ''
+  lastDestination = ''
 
   constructor(private routeService: RouteService) {}
 
@@ -51,6 +65,8 @@ export class KpiCardsComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['segments'] && this.segments) {
       this.isLoading = false;
+      this.firstOrigin = this.segments[0].origin.name;
+      this.lastDestination = this.segments[this.segments.length - 1].destination.name;
     }
   }
 

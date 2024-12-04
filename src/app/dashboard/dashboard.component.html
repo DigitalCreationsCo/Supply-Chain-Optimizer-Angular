@@ -1,15 +1,28 @@
-<h1>Supply Chain Optimizer</h1>
+<div class="header">
+    <h1>Supply Chain Optimizer</h1>
+    <p><strong>Track and analyze emissions and costs for local and regional supply chains.</strong>
+        <br />To get started, create a supply chain route for analysis using the form and 'New Route'.
+        <br /> Then, append to the route with 'New Route' or analyze with 'Save Routes'.</p>
+</div>
 <div class="dashboard">
     <app-input-form></app-input-form>
 
     <ng-container *ngIf="!isLoading; else loadingTemplate">
-        <ng-container *ngIf="routes.length > 0; else noDataTemplate">
+        <p style="margin:0 0 0 10px;">
+            Supply Chain Routes
+        </p>
+        <ng-container 
+        *ngIf="routes.length > 0; else noDataTemplate" 
+        >
+        <div class="dashboard-grid">
             <app-kpi-cards
-                *ngFor="let route of routes" 
-                [segments]="route.routeSegments">
+            *ngFor="let route of routes" 
+            [segments]="route.routeSegments">
             </app-kpi-cards>
-
+        </div>
+        <div class="dashboard-grid">
             <app-results-visualization [route]="routes[0]"></app-results-visualization>
+        </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <app-hotspots-table [route]="routes[0]"></app-hotspots-table>
@@ -35,4 +48,12 @@
             </div>
         </div>
     </ng-template>
+</div>
+<div class="footer">
+    <p class="caption">This application system is a work in progress, and is subject to change.</p>
+    <p class="caption">
+        For any questions or feedback, please feel free to contact me via email, connect on LinkedIn, or open an issue on the GitHub repository.
+        <br/>
+        2024 Bryant Mejia - Licensed under the MIT License.
+    </p>
 </div>
