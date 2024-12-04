@@ -5,7 +5,7 @@ import { KpiCardsComponent } from '../components/kpi/kpi.component';
 import { SupplyChainRoute } from '../models/route.model';
 import { SupplyChainService } from '../services/supply-chain.service';
 import { HotspotsTableComponent } from '../components/hotspots-table/hotspots-table.component';
-import { MapViewComponent } from '../components/map-view/map-view.component';
+// import { MapViewComponent } from '../components/map-view/map-view.component';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
     KpiCardsComponent,
     HotspotsTableComponent,
     ResultsVisualizationComponent,
-    MapViewComponent,
+    // MapViewComponent,
     CommonModule
   ],
   templateUrl: './dashboard.component.html',
