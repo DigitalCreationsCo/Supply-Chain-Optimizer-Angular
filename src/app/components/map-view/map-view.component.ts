@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, PLATFORM_ID, Inject } from '@angular/core';
+import { AfterViewInit, Component, Input, PLATFORM_ID, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SupplyChainRoute } from '../../models/route.model';
 import { MatCardModule } from '@angular/material/card';
@@ -18,8 +18,8 @@ import { MatCardModule } from '@angular/material/card';
     </mat-card>
   `
 })
-export class MapViewComponent implements AfterViewInit {
-  @Input() route: SupplyChainRoute = [];
+export class MapViewComponent implements AfterViewInit, OnChanges {
+  @Input() route: SupplyChainRoute = {id: 0, routeSegments: []}
   private map: any;
   private L: any;
 
@@ -27,6 +27,7 @@ export class MapViewComponent implements AfterViewInit {
 
   async initializeMap() {
     if (isPlatformBrowser(this.platformId)) {
+      console.debug(`map-view-component:initializeMap:route${this.route}`)
       this.L = await import('leaflet');
       this.map = this.L.map('map').setView([51.505, -0.09], 2);
       this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -43,8 +44,26 @@ export class MapViewComponent implements AfterViewInit {
     }
   }
 
+  async ngOnChanges(changes: SimpleChanges) {
+    if (!this.map) {
+      await this.initializeMap();
+    }
+    if (changes['route'] && this.route) {
+      this.plotRoutes();
+    }
+  }
+
   private plotRoutes() {
-    this.route.forEach(segment => {
+    if (!this.route?.routeSegments) {
+      return;
+    }
+    console.debug(`map-view-component:plotRoutes:route`, this.route);
+    this.route.routeSegments.forEach(segment => {
+      if (!segment?.origin || !segment?.destination) {
+        console.warn('Invalid segment data', segment);
+        return;
+      }
+      
       this.addMarker(segment.origin.latitude, segment.origin.longitude, 'Origin');
       this.addMarker(segment.destination.latitude, segment.destination.longitude, 'Destination');
     });

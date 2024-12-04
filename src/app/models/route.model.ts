@@ -10,4 +10,7 @@ destination: Location,
 emission: number;
 };
 
-export type SupplyChainRoute = RouteSegment[]
+export type SupplyChainRoute = {
+    id: number;
+    routeSegments: RouteSegment[]
+}

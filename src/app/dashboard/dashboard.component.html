@@ -1,18 +1,38 @@
+<h1>Supply Chain Optimizer</h1>
 <div class="dashboard">
-    <h1>Supply Chain Optimizer</h1>
-
     <app-input-form></app-input-form>
 
-    <div class="grid grid-cols-1 gap-4">
-      <app-kpi-cards *ngFor="let segments of routes" [segments]="segments"></app-kpi-cards>
-      <app-results-visualization [route]="routes[0]"></app-results-visualization>
+    <ng-container *ngIf="!isLoading; else loadingTemplate">
+        <ng-container *ngIf="routes.length > 0; else noDataTemplate">
+            <app-kpi-cards
+                *ngFor="let route of routes" 
+                [segments]="route.routeSegments">
+            </app-kpi-cards>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- <app-route-distribution [routes]="routes"></app-route-distribution> -->
-        <app-hotspots-table [route]="routes[0]"></app-hotspots-table>
-      </div>
+            <app-results-visualization [route]="routes[0]"></app-results-visualization>
 
-      <app-map-view [route]="routes[0]"></app-map-view>
-    </div>
-    
-  </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <app-hotspots-table [route]="routes[0]"></app-hotspots-table>
+            </div>
+
+            <app-map-view [route]="routes[0]"></app-map-view>
+        </ng-container>
+    </ng-container>
+
+    <ng-template #loadingTemplate>
+        <div class="flex items-center justify-center p-8">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                <p class="text-gray-600">Loading routes...</p>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #noDataTemplate>
+        <div class="flex items-center justify-center p-8">
+            <div class="text-center">
+                <p class="text-gray-600">No routes available. Please add a route using the form above.</p>
+            </div>
+        </div>
+    </ng-template>
+</div>

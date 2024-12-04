@@ -1,7 +1,9 @@
+<p>Press '+' to create a supply chain route using the form.
+  <br /> Then, append to the route with '+' or save the route to analyze.</p>
 <form [formGroup]="supplyChainForm" (ngSubmit)="onSubmit()" class="supply-chain-form">
     <fieldset>
     <mat-form-field formGroupName="origin">
-      <mat-label>Origin Name</mat-label>
+      <mat-label>Origin</mat-label>
       <input 
         matInput 
         type="text"
@@ -27,7 +29,7 @@
 
     <fieldset>
     <mat-form-field formGroupName="destination">
-      <mat-label>Destination Name</mat-label>
+      <mat-label>Destination</mat-label>
       <input 
       matInput
       type="text"
@@ -67,7 +69,7 @@
     </ul>
   </fieldset>
 
-    <button mat-raised-button color="primary" type="submit">Optimize</button>
-    <a mat-raised-button color="accent" [routerLink]="['/results']">View Results</a>
+  <button mat-raised-button color="primary" type="submit">New Route</button>
+  <button mat-raised-button color="primary" [disabled]="supplyChainRouteList.length <= 0" (click)="saveRoutes()">Save Routes</button>
   </form>
   

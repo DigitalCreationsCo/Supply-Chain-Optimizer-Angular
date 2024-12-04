@@ -27,9 +27,7 @@ import { SupplyChainService } from '../services/supply-chain.service';
 
 
 export class InputFormComponent {
-
-  constructor(private supplyChainService:SupplyChainService) {
-  }
+  constructor(private supplyChainService:SupplyChainService) {}
 
   supplyChainForm = new FormGroup({
     origin: new FormGroup({
@@ -90,17 +88,22 @@ export class InputFormComponent {
 
   onSubmit() {
     if (this.supplyChainForm.valid) {
-      const newRoute = this.supplyChainForm.value as RouteSegment;
+      const newSegment = this.supplyChainForm.value as RouteSegment;
   
-      this.supplyChainRouteList.push(newRoute);
+      this.supplyChainRouteList.push(newSegment);
       console.info('pushed to route ', this.supplyChainRouteList);
-
-      // this.supplyChainService.saveRoute(supplyChainRouteList) // when to save the supplyChainRouteList to database??
   
       this.supplyChainForm.markAsUntouched();
       this.supplyChainForm.reset();
     } else {
       this.supplyChainForm.markAllAsTouched();
     }
+  }
+
+  saveRoutes() {
+    this.supplyChainService.saveRoute(this.supplyChainRouteList).subscribe(savedRoute => 
+      console.debug('saved route', savedRoute)
+      );
+    this.supplyChainRouteList = []
   }
 }

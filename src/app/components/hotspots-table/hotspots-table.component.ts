@@ -1,5 +1,5 @@
 // src/app/components/hotspots-table/hotspots-table.component.ts
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { RouteSegment, SupplyChainRoute } from '../../models/route.model';
@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
 
 
 interface HotspotRoute extends RouteSegment {
@@ -19,7 +20,7 @@ interface HotspotRoute extends RouteSegment {
 @Component({
   selector: 'app-hotspots-table',
   standalone: true,
-  imports: [MatPaginatorModule, MatTableModule, MatSortModule, MatFormFieldModule, MatCardModule, CommonModule],
+  imports: [MatPaginatorModule, MatTableModule, MatSortModule, MatFormFieldModule, MatInputModule, MatCardModule, CommonModule],
   template: `
     <mat-card>
       <mat-card-header>
@@ -85,17 +86,14 @@ interface HotspotRoute extends RouteSegment {
   `]
 })
 export class HotspotsTableComponent implements OnChanges {
-  @Input() route: SupplyChainRoute = [];
+  @Input() route: SupplyChainRoute = {id: 0, routeSegments: []};
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   displayedColumns = ['origin', 'destination', 'emission', 'percentileRank', 'emissionShare'];
   dataSource: MatTableDataSource<HotspotRoute>;
-  routeService: RouteService;
 
-  constructor(
-  ) {
-    this.routeService = new RouteService();
+  constructor( private routeService: RouteService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -104,11 +102,12 @@ export class HotspotsTableComponent implements OnChanges {
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnChanges() {
-    if (this.route.length) {
-      const totalEmissions = this.routeService.calculateTotalEmissions(this.route)
+  ngOnChanges(changes:SimpleChanges) {
+    console.info('hotspots:onChanges:this.route', this.route);
+    if (changes['route'] && this.route && this.route['routeSegments'].length > 0) {
+      const totalEmissions = this.routeService.calculateTotalEmissions(this.route['routeSegments'])
       
-      const enrichedRoute: HotspotRoute[] = this.route
+      const enrichedRoute: HotspotRoute[] = this.route['routeSegments']
         .map(segment => ({
           ...segment,
           percentileRank: this.calculatePercentileRank(segment.emission),
@@ -121,7 +120,7 @@ export class HotspotsTableComponent implements OnChanges {
   }
 
   private calculatePercentileRank(emission: number): number {
-    const sortedEmissions = [...this.route]
+    const sortedEmissions = [...this.route['routeSegments']]
       .map(r => r.emission)
       .sort((a, b) => a - b);
     

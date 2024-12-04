@@ -1,6 +1,7 @@
 <mat-card>
-<mat-card-header>
+<mat-card-header class="header">
         <mat-card-title>Emissions Trend</mat-card-title>
+        <a mat-raised-button color="accent" [routerLink]="['/results']">Expand Results</a>
 </mat-card-header>
 <mat-card-content>
         <mat-button-toggle-group [(value)]="timeFrame">
@@ -8,10 +9,15 @@
         <mat-button-toggle value="quarter">Quarterly</mat-button-toggle>
         <mat-button-toggle value="year">Yearly</mat-button-toggle>
         </mat-button-toggle-group>
-        <canvas baseChart
-        [data]="chartData"
-        [type]="chartType"
-        [options]="chartOptions">
-        </canvas>
+        <ng-container *ngIf="isBrowser; else ssrFallback">
+                <canvas baseChart
+                [data]="chartData"
+                [type]="chartType"
+                [options]="chartOptions">
+                </canvas>
+        </ng-container>
+        <ng-template #ssrFallback>
+                <div>Charts are not available in this view.</div>
+        </ng-template>
 </mat-card-content>
 </mat-card>

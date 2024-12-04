@@ -30,8 +30,8 @@ export class RouteService {
   }
 
   // Calculate total emissions for a route
-  calculateTotalEmissions(route: SupplyChainRoute): number {
-    let totalEmissionsList = route.map((segment) => this.calculateDistance(segment.origin.latitude, segment.origin.longitude, segment.destination.latitude, segment.destination.longitude) * segment.emission);
+  calculateTotalEmissions(segments: RouteSegment[]): number {
+    let totalEmissionsList = segments.map((segment) => this.calculateDistance(segment.origin.latitude, segment.origin.longitude, segment.destination.latitude, segment.destination.longitude) * segment.emission);
     
     // sum segment emissions
     const totalEmissions = totalEmissionsList.reduce((sum, currentValue) => {
