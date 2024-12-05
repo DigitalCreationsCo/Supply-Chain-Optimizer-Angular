@@ -1,12 +1,11 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css'; 
 
 .app-background {
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
+  background-position: 150% 150%;
   background: url('../public/globe.svg') center/contain no-repeat;
-  /* background-color: #f0f0f0; Fallback background color */
+  opacity: .2;
+  background-color: #f0f0f0; /* fallback background color */
 }
 
 body {

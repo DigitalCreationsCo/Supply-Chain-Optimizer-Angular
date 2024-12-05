@@ -71,8 +71,10 @@
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"
