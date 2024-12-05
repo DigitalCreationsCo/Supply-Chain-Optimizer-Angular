@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { InputFormComponent } from './input-form/input-form.component';
-import { ResultsVisualizationComponent } from './results-visualization/results-visualization.component';
 
 export const routes: Routes = [
-    { path: '', component: DashboardComponent },  // Default route
-    { path: 'input', component: InputFormComponent },
-    { path: 'results', component: ResultsVisualizationComponent }
+    { path: '', 
+        loadComponent: () => import('./dashboard/dashboard.component').then(m=>m.DashboardComponent)},
+        { path: 'input', 
+        loadComponent: () => import('./input-form/input-form.component').then(m=>m.InputFormComponent)},
+        { path: 'results', 
+        loadComponent: () => import('./results-visualization/results-visualization.component').then(m=>m.ResultsVisualizationComponent)},
 ];

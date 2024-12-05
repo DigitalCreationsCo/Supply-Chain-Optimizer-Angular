@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "ng build --configuration production --aot --build-optimizer --vendor-chunk --common-chunk --delete-output-path",
+    "analyze": "ng build --stats-json && webpack-bundle-analyzer dist/supply-chain-optimizer/stats.json",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:supply-chain-optimizer": "node dist/supply-chain-optimizer/server/server.mjs"
@@ -23,6 +25,7 @@
     "@angular/platform-server": "^19.0.0",
     "@angular/router": "^19.0.0",
     "@angular/ssr": "^19.0.2",
+    "@bluehalo/ngx-leaflet": "^19.0.0",
     "@netlify/angular-runtime": "^2.2.1",
     "chart.js": "^4.4.7",
     "dotenv": "^16.4.6",
@@ -47,6 +50,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

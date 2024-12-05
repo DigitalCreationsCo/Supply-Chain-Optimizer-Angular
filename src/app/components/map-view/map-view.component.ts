@@ -2,19 +2,25 @@ import { AfterViewInit, Component, Input, PLATFORM_ID, Inject, OnChanges, Simple
 import { isPlatformBrowser } from '@angular/common';
 import { SupplyChainRoute } from '../../models/route.model';
 import { MatCardModule } from '@angular/material/card';
+import { LeafletModule } from '@bluehalo/ngx-leaflet';
+import { Icon, icon, latLng, MarkerOptions, tileLayer } from 'leaflet';
 
 @Component({
   selector: 'app-map-view',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [
+    LeafletModule,
+    MatCardModule
+  ],
   template: `
     <mat-card class="map-card">
       <mat-card-header>
         <mat-card-title>Geographic Distribution</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="map-container">
-          <div id="map"></div>
+        <div style="height: 300px;"
+          leaflet 
+          [leafletOptions]="options">
         </div>
       </mat-card-content>
     </mat-card>
@@ -51,59 +57,84 @@ import { MatCardModule } from '@angular/material/card';
 
 export class MapViewComponent implements AfterViewInit, OnChanges {
   @Input() route: SupplyChainRoute = {id: 0, routeSegments: []}
-  private map: any;
-  private L: any;
+  // private map: any;
+  // private L: any;
+  options = {
+    layers: [
+      tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 18,
+          tileSize: 512,
+          zoomOffset: -1
+        })
+    ],
+    zoom: 5,
+    center: latLng(46.879966, -121.726909),
+    minZoom: 2,
+    maxZoom: 18,
+    scrollWheelZoom: false,
+    zoomControl: true
+  };
 
+  markerOption:MarkerOptions = {
+    icon: icon({
+      ...Icon.Default.prototype.options,
+      iconUrl: 'assets/marker-icon.png',
+      iconRetinaUrl: 'assets/marker-icon-2x.png',
+      shadowUrl: 'assets/marker-shadow.png'
+     })
+  }
+  
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   async ngAfterViewInit() {
-    await this.initializeMap();
-    if (this.map) {
-      this.plotRoutes();
-    }
+    // await this.initializeMap();
+    // if (this.map) {
+    //   this.plotRoutes();
+    // }
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (!this.map) {
-      await this.initializeMap();
-    }
-    if (changes['route'] && this.route) {
-      this.plotRoutes();
-    }
+    // if (!this.map) {
+      // await this.initializeMap();
+    // }
+    // if (changes['route'] && this.route) {
+      // this.plotRoutes();
+    // }
   }
 
   async initializeMap() {
     if (isPlatformBrowser(this.platformId)) {
       console.debug(`map-view-component:initializeMap:route`, this.route);
-      this.L = await import('leaflet');
+      // this.L = await import('leaflet');
       
-      // Initialize map with better default options
-      this.map = this.L.map('map', {
-        center: [20, 0], // More centered global view
-        zoom: 2,
-        minZoom: 2,
-        maxZoom: 18,
-        scrollWheelZoom: false,
-        zoomControl: true
-      });
+      // // Initialize map with better default options
+      // this.map = this.L.map('map', {
+      //   center: [20, 0], // More centered global view
+      //   zoom: 2,
+      //   minZoom: 2,
+      //   maxZoom: 18,
+      //   scrollWheelZoom: false,
+      //   zoomControl: true
+      // });
   
-      // Add tile layer with better options
-      this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors',
-        maxZoom: 18,
-        tileSize: 512,
-        zoomOffset: -1
-      }).addTo(this.map);
+      // // Add tile layer with better options
+      // this.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      //   attribution: '© OpenStreetMap contributors',
+      //   maxZoom: 18,
+      //   tileSize: 512,
+      //   zoomOffset: -1
+      // }).addTo(this.map);
   
-      // Add zoom control to top-right
-      this.L.control.zoom({
-        position: 'topright'
-      }).addTo(this.map);
+      // // Add zoom control to top-right
+      // this.L.control.zoom({
+      //   position: 'topright'
+      // }).addTo(this.map);
   
-      // Fit bounds after plotting routes
-      this.map.on('load', () => {
-        this.fitMapToMarkers();
-      });
+      // // Fit bounds after plotting routes
+      // this.map.on('load', () => {
+      //   this.fitMapToMarkers();
+      // });
     }
   }
   

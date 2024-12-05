@@ -15,10 +15,16 @@
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
+    "sourceMap": false,
+    "removeComments": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "downlevelIteration": true
   },
   "angularCompilerOptions": {
+    "enableIvy": true,
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": false,
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
