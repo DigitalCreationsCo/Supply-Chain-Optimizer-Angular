@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center; */
   height: 100vh; /* Full viewport height */
-  background: url('/public/globe.svg') center/contain no-repeat;
+  background: url('../public/globe.svg') center/contain no-repeat;
   /* background-color: #f0f0f0; Fallback background color */
 }
 
