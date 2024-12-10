@@ -1,5 +1,7 @@
 import type { Config, Context } from "@netlify/edge-functions";
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 export default async (request: Request, context: Context) => {
   try {
     const url = new URL(request.url)
