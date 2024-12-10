@@ -1,13 +1,11 @@
 import type { Config, Context } from "@netlify/edge-functions";
-import * as dotenv from 'dotenv';
 
-dotenv.config();
 export default async (request: Request, context: Context) => {
   try {
     const url = new URL(request.url)
 
-    const locApiKey = process.env['LOC_API_KEY']
-    const locAutoCompleteUrl = process.env['LOC_AUTOCOMPLETE_URL']
+    const locApiKey = Netlify.env.get('LOC_API_KEY')
+    const locAutoCompleteUrl = Netlify.env.get('LOC_AUTOCOMPLETE_URL')
 
     const query = url.searchParams.get("q")!
 
