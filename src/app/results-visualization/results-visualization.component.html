@@ -1,15 +1,15 @@
 <mat-card class="chart-container">
 <mat-card-header class="header">
-        <mat-card-title>Emissions Trend</mat-card-title>
+        <mat-card-title>Emission Trend</mat-card-title>
 </mat-card-header>
 <mat-card-content>
-        <div style="display:flex;gap:20px;align-items:baseline;">
+        <div style="display:flex;gap:20px;align-items:baseline;width:full;justify-content:space-between;">
                 <mat-button-toggle-group [(value)]="timeFrame">
                         <mat-button-toggle value="month">Monthly</mat-button-toggle>
                         <mat-button-toggle value="quarter">Quarterly</mat-button-toggle>
                         <mat-button-toggle value="year">Yearly</mat-button-toggle>
                 </mat-button-toggle-group>
-                <a mat-raised-button color="accent" [routerLink]="['/results']">Expand</a>
+                <a *ngIf="router.url === '/'" mat-raised-button color="accent" style="justify-self:end;" [routerLink]="['/results']">Expand</a>
         </div>
 
         <ng-container *ngIf="isBrowser; else ssrFallback">

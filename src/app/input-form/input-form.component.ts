@@ -40,7 +40,8 @@ export class InputFormComponent {
       latitude: new FormControl(0, Validators.required),
       longitude: new FormControl(0, Validators.required),
   }),
-    emission: new FormControl(0, [Validators.required, Validators.min(0.01)])
+    costPerKm: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+    emissionPerKm: new FormControl(0, [Validators.required, Validators.min(0.01)])
   });
 
   public originAutoCompleteList: Location[] = [];
@@ -64,24 +65,20 @@ export class InputFormComponent {
 
   selectOrigin() {
     const selectedOption = this.supplyChainForm.get('origin')?.get('name')?.value;
-    console.log('selected option ', selectedOption);
 
     const selectedOrigin = this.originAutoCompleteList.find(option => option.name === selectedOption);
 
     if (selectedOrigin) {
-      console.info('selected origin ', selectedOrigin)
       this.supplyChainForm.get('origin')?.setValue(selectedOrigin);
     }
   }
   
   selectDestination() {
     const selectedOption = this.supplyChainForm.get('destination')?.get('name')?.value;
-    console.log('selected option ', selectedOption);
 
     const selectedDestination = this.destinationAutoCompleteList.find(option => option.name === selectedOption);
 
     if (selectedDestination) {
-      console.info('selected destination ', selectedDestination)
       this.supplyChainForm.get('destination')?.setValue(selectedDestination);
     }
   }
@@ -91,7 +88,6 @@ export class InputFormComponent {
       const newSegment = this.supplyChainForm.value as RouteSegment;
   
       this.supplyChainRouteList.push(newSegment);
-      console.info('pushed to route ', this.supplyChainRouteList);
   
       this.supplyChainForm.markAsUntouched();
       this.supplyChainForm.reset();
@@ -101,7 +97,7 @@ export class InputFormComponent {
   }
 
   saveRoutes() {
-    this.supplyChainService.saveRoute(this.supplyChainRouteList).subscribe(savedRoute => 
+    this.supplyChainService.saveRoute(this.supplyChainRouteList).subscribe(savedRoute =>
       console.debug('saved route', savedRoute)
       );
     this.supplyChainRouteList = []

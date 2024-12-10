@@ -1,19 +1,20 @@
 import { RouteSegment } from "./route.model";
 
-export interface SegmentAnalyticsData {
-    emissions: number;
+export interface SegmentAnalytics {
     distance: number;
+    emission: number;
     cost: number;
     mode: string;
 }
 
-export interface Scenario {
-    id: string;
+export interface SupplyChainAnalytics {
+    id: number;
     name: string;
-    segment: RouteSegment;
-    averageEmissions: number;
+    segmentAnalytics: (RouteSegment & SegmentAnalytics)[];
+    averageEmission: number;
+    emission: number;
     cost: number;
-    distance?: number;
-    timestamp: Date;
-    timeSaved: number;
+    distance: number;
+    createdAt: Date | null;
+    timeSavings: number;
 }

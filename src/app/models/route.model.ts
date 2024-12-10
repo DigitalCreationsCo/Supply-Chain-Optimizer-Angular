@@ -1,13 +1,14 @@
 export type Location = {
-name: string;
-latitude: number;
-longitude: number;
+    name: string;
+    latitude: number;
+    longitude: number;
 }
 
 export type RouteSegment = {
-origin: Location,
-destination: Location,
-emission: number;
+    origin: Location,
+    destination: Location,
+    emissionPerKm: number;
+    costPerKm: number;
 };
 
 export type SupplyChainRoute = {

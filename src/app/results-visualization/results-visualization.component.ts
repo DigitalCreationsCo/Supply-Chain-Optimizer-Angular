@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-results-visualization',
@@ -27,7 +28,10 @@ export class ResultsVisualizationComponent implements AfterViewInit, OnChanges{
   @Input() route: SupplyChainRoute = {id: 0, routeSegments: []}
   isBrowser: boolean;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object, 
+    public router: Router
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
@@ -37,7 +41,7 @@ export class ResultsVisualizationComponent implements AfterViewInit, OnChanges{
     labels: ['January', 'February', 'March', 'April'],
     datasets: [{
       data: [10, 20, 30, 40],
-      label: 'Supply Chain Emissions',
+      label: 'Supply Chain Emission Record',
       fill: false,
       borderColor: 'blue',
       tension: 0.1

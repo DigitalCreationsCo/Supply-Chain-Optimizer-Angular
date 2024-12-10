@@ -123,7 +123,7 @@ This Angular application helps track and analyze costs and emissions for supply 
 src/
 ├── app/
 │   ├── components/
-│   │   ├── kpi-cards/         
+│   │   ├── analytics/         
 │   │   ├── map-view/          
 │   │   ├── route-form/       
 │   │   └── hotspots-table/    

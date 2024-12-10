@@ -2,7 +2,6 @@
 import { Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { RouteSegment, SupplyChainRoute } from '../../models/route.model';
 import { RouteService } from '../../services/route.service';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,9 +9,10 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
+import { SegmentAnalytics, SupplyChainAnalytics } from '../../models/analytics.model';
 
 
-interface HotspotRoute extends RouteSegment {
+interface HotspotRoute extends SegmentAnalytics {
   percentileRank: number;
   emissionShare: number;
 }
@@ -86,7 +86,7 @@ interface HotspotRoute extends RouteSegment {
   `]
 })
 export class HotspotsTableComponent implements OnChanges {
-  @Input() route: SupplyChainRoute = {id: 0, routeSegments: []};
+  @Input() route: SupplyChainAnalytics | null = null;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -104,14 +104,13 @@ export class HotspotsTableComponent implements OnChanges {
 
   ngOnChanges(changes:SimpleChanges) {
     console.info('hotspots:onChanges:this.route', this.route);
-    if (changes['route'] && this.route && this.route['routeSegments'].length > 0) {
-      const totalEmissions = this.routeService.calculateTotalEmissions(this.route['routeSegments'])
+    if (changes['route'] && this.route && this.route['segmentAnalytics'].length > 0) {
       
-      const enrichedRoute: HotspotRoute[] = this.route['routeSegments']
+      const enrichedRoute: HotspotRoute[] = this.route['segmentAnalytics']
         .map(segment => ({
           ...segment,
           percentileRank: this.calculatePercentileRank(segment.emission),
-          emissionShare: segment.emission / totalEmissions
+          emissionShare: segment.emission / this.route!.emission
         }))
         .sort((a, b) => b.emission - a.emission);
 
@@ -120,7 +119,7 @@ export class HotspotsTableComponent implements OnChanges {
   }
 
   private calculatePercentileRank(emission: number): number {
-    const sortedEmissions = [...this.route['routeSegments']]
+    const sortedEmissions = [...this.route!['segmentAnalytics']]
       .map(r => r.emission)
       .sort((a, b) => a - b);
     

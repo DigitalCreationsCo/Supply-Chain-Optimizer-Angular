@@ -3,7 +3,7 @@ import { BehaviorSubject, catchError, from, map, Observable, of, switchMap, thro
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-type StoreName = 'routes'|'analytics';
+type StoreName = 'routes'|'segment-analytics'|'sc-analytics';
 
 interface DatabaseState {
   initialized: boolean;
@@ -16,7 +16,7 @@ interface DatabaseState {
 export class DatabaseService {
   private dbName = 'SupplyChainApp';
   private dbVersion = 1;
-  private stores:StoreName[] = ['routes']
+  private stores:StoreName[] = ['routes', 'segment-analytics', 'sc-analytics']
   
   private db$ = new BehaviorSubject<IDBDatabase | null>(null);
   private dbState$ = new BehaviorSubject<DatabaseState>({ initialized: false });
@@ -147,9 +147,10 @@ export class DatabaseService {
   /**
    * Get all records from the specified object store.
    */
-  getAllRecords(storeName: StoreName): Observable<any[]> {
+  getAllRecords(storeName: StoreName): Observable<any> {
+    console.debug('database-service:getAllRecords:' + storeName)
     return this.getDatabase().pipe(
-      switchMap(db => new Observable<any[]>(observer => {
+      switchMap(db => new Observable<any>(observer => {
       const transaction = db.transaction(storeName, 'readonly');
       const store = transaction.objectStore(storeName);
       const request = store.getAll();

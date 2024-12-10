@@ -1,20 +1,21 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { InputFormComponent } from '../input-form/input-form.component';
 import { ResultsVisualizationComponent } from '../results-visualization/results-visualization.component';
-import { KpiCardsComponent } from '../components/kpi/kpi.component';
+import { AnalyticsCardComponent } from '../components/analytics/analytics-card.component';
 import { SupplyChainRoute } from '../models/route.model';
 import { SupplyChainService } from '../services/supply-chain.service';
 import { HotspotsTableComponent } from '../components/hotspots-table/hotspots-table.component';
 // import { MapViewComponent } from '../components/map-view/map-view.component';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { SupplyChainAnalytics } from '../models/analytics.model';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     InputFormComponent,
-    KpiCardsComponent,
+    AnalyticsCardComponent,
     HotspotsTableComponent,
     ResultsVisualizationComponent,
     // MapViewComponent,
@@ -25,8 +26,11 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent implements OnInit, OnChanges, OnDestroy {
   private destroy$ = new Subject<void>();
-  routes: SupplyChainRoute[] = []
-  isLoading = true;  // Add this line
+
+  routes: SupplyChainRoute[] = [];
+
+  supplyChainAnalytics: SupplyChainAnalytics[] = []
+  isLoading = true;
 
   constructor(private supplyChainService: SupplyChainService) {}
 
@@ -38,7 +42,20 @@ export class DashboardComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe({
         next: (routes) => {
           this.routes = routes;
-          this.isLoading = false;  // Set loading to false when data arrives
+        },
+        error: (error) => {
+          console.error('Error fetching routes:', error);
+          this.isLoading = false;  // Also set loading to false on error
+        }
+      });
+    
+      this.supplyChainService.analytics$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (supplyChainAnalytics) => {
+          this.supplyChainAnalytics = supplyChainAnalytics;
         },
         error: (error) => {
           console.error('Error fetching routes:', error);
@@ -46,6 +63,7 @@ export class DashboardComponent implements OnInit, OnChanges, OnDestroy {
         }
       });
 
+      this.isLoading = false;
     }
     
   ngOnChanges(changes: SimpleChanges): void {

@@ -15,17 +15,17 @@
         *ngIf="routes.length > 0; else noDataTemplate" 
         >
         <div class="dashboard-grid">
-            <app-kpi-cards
-            *ngFor="let route of routes" 
-            [segments]="route.routeSegments">
-            </app-kpi-cards>
+            <app-analytics-cards
+            *ngFor="let analytics of supplyChainAnalytics"
+            [supplyChainAnalytics]="analytics">
+            </app-analytics-cards>
         </div>
         <div class="dashboard-grid">
             <app-results-visualization [route]="routes[0]"></app-results-visualization>
         </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <app-hotspots-table [route]="routes[0]"></app-hotspots-table>
+                <app-hotspots-table [route]="supplyChainAnalytics[0]"></app-hotspots-table>
             </div>
 
             <!-- <app-map-view [route]="routes[0]"></app-map-view> -->
@@ -52,8 +52,10 @@
 <div class="footer">
     <p class="caption">This application system is a work in progress, and is subject to change.</p>
     <p class="caption">
-        For any questions or feedback, please feel free to contact me via email, connect on LinkedIn, or open an issue on the GitHub repository.
+        Have feedback? Email Bryant at <a href="mailto:bryantmejia722&#64;outlook.com">bryantmejia722&#64;outlook.com</a>, or open an issue on the <a href="https://github.com/DigitalCreationsCo/Supply-Chain-Optimizer-Angular/issues">github repository</a>.
         <br/>
-        2024 Bryant Mejia - Licensed under the MIT License.
+        Don't forget to connect on <a href="https://www.linkedin.com/in/bryant-mejia-085669331/">LinkedIn</a>.
+        <br/>
+        2024 Digital Creations Co. - Licensed under the MIT License.
     </p>
 </div>
