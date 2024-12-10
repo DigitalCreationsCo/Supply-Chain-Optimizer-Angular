@@ -1,0 +1,54 @@
+.chart-container {
+    padding: 1rem;
+  }
+  
+  .analytics-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .summary-item strong {
+    margin-bottom: 0.5rem;
+    color: #666;
+  }
+  
+  .summary-item span {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .time-toggle,
+  .chart-type-toggle {
+    flex-grow: 1;
+  }
+  
+  canvas {
+    margin-top: 1rem;
+    max-height: 400px;
+  }
+  
+  @media (max-width: 768px) {
+    .controls {
+      flex-direction: column;
+    }
+  }

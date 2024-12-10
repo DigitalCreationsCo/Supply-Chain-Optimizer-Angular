@@ -7,8 +7,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { Location, RouteSegment } from '../models/route.model';
-import { SupplyChainService } from '../services/supply-chain.service';
+import { Location, RouteSegment } from '../../models/route.model';
+import { SupplyChainService } from '../../services/supply-chain.service';
 
 @Component({
   selector: 'app-input-form',
@@ -21,6 +21,7 @@ import { SupplyChainService } from '../services/supply-chain.service';
     CommonModule,
     RouterModule,
   ],
+  standalone: true,
   templateUrl: './input-form.component.html',
   styleUrl: './input-form.component.css'
 })

@@ -1,0 +1,51 @@
+<div class="chart-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Supply Chain Analytics</mat-card-title>
+      <mat-card-subtitle *ngIf="analytics">
+        Route ID: {{analytics.id}} - {{analytics.name}}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="analytics-summary" *ngIf="analytics">
+        <div class="summary-item">
+          <strong>Total Emissions:</strong>
+          <span>{{analytics.emission.toFixed(2)}} kg CO2</span>
+        </div>
+        <div class="summary-item">
+          <strong>Total Cost:</strong>
+          <span>${{analytics.cost.toFixed(2)}}</span>
+        </div>
+        <div class="summary-item">
+          <strong>Total Distance:</strong>
+          <span>{{analytics.distance.toFixed(2)}} km</span>
+        </div>
+        <div class="summary-item">
+          <strong>Time Savings:</strong>
+          <span>{{analytics.timeSavings.toFixed(2)}} hours</span>
+        </div>
+      </div>
+
+      <div class="controls">
+        <mat-button-toggle-group [value]="timeFrame" (change)="onTimeFrameChange($event.value)" class="time-toggle">
+          <mat-button-toggle value="month">Month</mat-button-toggle>
+          <mat-button-toggle value="quarter">Quarter</mat-button-toggle>
+          <mat-button-toggle value="year">Year</mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <mat-button-toggle-group [value]="selectedChartType" (change)="onChartTypeChange($event.value)" class="chart-type-toggle">
+          <mat-button-toggle *ngFor="let type of chartTypes" [value]="type.value">
+            {{type.label}}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <canvas *ngIf="isBrowser" baseChart
+        [type]="selectedChartType"
+        [data]="chartData"
+        [options]="chartOptions">
+      </canvas>
+    </mat-card-content>
+  </mat-card>
+</div>

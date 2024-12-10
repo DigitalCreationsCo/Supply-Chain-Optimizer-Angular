@@ -64,7 +64,7 @@ import { SupplyChainService } from '../../services/supply-chain.service';
         {{ supplyChainAnalytics.cost | number:'1.0-2' }}
         </div>
 
-        <div *ngIf="!isLoading && supplyChainAnalytics.segmentAnalytics.length > 0">
+        <div *ngIf="!isLoading && supplyChainAnalytics.segmentAnalytics.length > 0" class="segment-card-container">
           <h2>Route Segments</h2>
           <div *ngFor="let segment of supplyChainAnalytics.segmentAnalytics" class="segment-card">
             <mat-card class="segment-details">

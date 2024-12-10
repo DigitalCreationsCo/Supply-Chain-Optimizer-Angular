@@ -1,14 +1,14 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { InputFormComponent } from '../input-form/input-form.component';
 import { ResultsVisualizationComponent } from '../results-visualization/results-visualization.component';
-import { AnalyticsCardComponent } from '../components/analytics/analytics-card.component';
-import { SupplyChainRoute } from '../models/route.model';
-import { SupplyChainService } from '../services/supply-chain.service';
-import { HotspotsTableComponent } from '../components/hotspots-table/hotspots-table.component';
+import { AnalyticsCardComponent } from '../analytics/analytics-card.component';
+import { SupplyChainRoute } from '../../models/route.model';
+import { SupplyChainService } from '../../services/supply-chain.service';
+import { HotspotsTableComponent } from '../hotspots-table/hotspots-table.component';
 // import { MapViewComponent } from '../components/map-view/map-view.component';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { SupplyChainAnalytics } from '../models/analytics.model';
+import { SupplyChainAnalytics } from '../../models/analytics.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, OnChanges, OnDestroy {
   routes: SupplyChainRoute[] = [];
 
   supplyChainAnalytics: SupplyChainAnalytics[] = []
+  
   isLoading = true;
 
   constructor(private supplyChainService: SupplyChainService) {}
