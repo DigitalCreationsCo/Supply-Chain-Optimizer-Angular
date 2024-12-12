@@ -20,11 +20,6 @@
     gap: 20px;
 }
 
-.segment-card {
-    border: solid 1px black;
-}
-
-
 .mat-mdc-card-content {
     display: flex;
     flex-direction: column;
